@@ -398,6 +398,7 @@ AudioBuffer *LoadAudioBuffer(ma_format format, ma_uint32 channels, ma_uint32 sam
 void UnloadAudioBuffer(AudioBuffer *buffer);
 
 bool IsAudioBufferPlaying(AudioBuffer *buffer);
+bool IsAudioBufferPaused(AudioBuffer *buffer);
 void PlayAudioBuffer(AudioBuffer *buffer);
 void StopAudioBuffer(AudioBuffer *buffer);
 void PauseAudioBuffer(AudioBuffer *buffer);
@@ -605,6 +606,17 @@ bool IsAudioBufferPlaying(AudioBuffer *buffer)
 
     return result;
 }
+
+// Check if an audio buffer is paused
+bool IsAudioBufferPaused(AudioBuffer *buffer)
+{
+    bool result = false;
+
+    if (buffer != NULL) result = buffer->paused;
+
+    return result;
+}
+
 
 // Play an audio buffer
 // NOTE: Buffer is restarted to the start.
@@ -2046,6 +2058,12 @@ bool IsAudioStreamPlaying(AudioStream stream)
     return IsAudioBufferPlaying(stream.buffer);
 }
 
+// Check if audio stream is paused.
+bool IsAudioStreamPaused(AudioStream stream)
+{
+    return IsAudioBufferPaused(stream.buffer);
+}
+
 // Stop audio stream
 void StopAudioStream(AudioStream stream)
 {
@@ -2068,6 +2086,16 @@ void SetAudioStreamPitch(AudioStream stream, float pitch)
 void SetAudioStreamPan(AudioStream stream, float pan)
 {
     SetAudioBufferPan(stream.buffer, pan);
+}
+
+float GetAudioStreamTimePlayed(AudioStream stream)
+{
+    float secondsPlayed = 0.0f;
+    if (stream.buffer) {
+        unsigned int framesPlayed = stream.buffer->framesProcessed;
+        secondsPlayed = (float)framesPlayed/stream.sampleRate;
+    }
+    return secondsPlayed;
 }
 
 // Default size for new audio streams

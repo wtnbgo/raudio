@@ -193,10 +193,12 @@ void PlayAudioStream(AudioStream stream);                       // Play audio st
 void PauseAudioStream(AudioStream stream);                      // Pause audio stream
 void ResumeAudioStream(AudioStream stream);                     // Resume audio stream
 bool IsAudioStreamPlaying(AudioStream stream);                  // Check if audio stream is playing
+bool IsAudioStreamPaused(AudioStream stream);                   // Check if audio stream is paused
 void StopAudioStream(AudioStream stream);                       // Stop audio stream
 void SetAudioStreamVolume(AudioStream stream, float volume);    // Set volume for audio stream (1.0 is max level)
 void SetAudioStreamPitch(AudioStream stream, float pitch);      // Set pitch for audio stream (1.0 is base level)
 void SetAudioStreamPan(AudioStream strean, float pan);          // Set pan for audio stream  (0.0 to 1.0, 0.5=center)
+float GetAudioStreamTimePlayed(AudioStream strean);             // Get current stream time played
 void SetAudioStreamBufferSizeDefault(int size);                 // Default size for new audio streams
 
 #ifdef __cplusplus
